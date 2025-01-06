@@ -1,7 +1,7 @@
 import streamlit as st
 from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
-from strategy_tearsheet import main as tearsheet_main
+from strategy-tearsheet import main as tearsheet_main
 
 # Sidebar Navigation
 st.sidebar.title("Navigation")
