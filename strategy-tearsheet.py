@@ -4,6 +4,7 @@ import quantstats as qs
 import numpy as np
 
 def main():
+    st.title("Strategy Tearsheet")
 # Replace with your published CSV link
 csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuyGRVZuafIk2s7moScIn5PAUcPYEyYIOOYJj54RXYUeugWmOP0iIToljSEMhHrg_Zp8Vab6YvBJDV/pub?output=csv"
 
