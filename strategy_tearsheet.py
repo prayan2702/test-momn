@@ -3,6 +3,8 @@ import pandas as pd
 import quantstats as qs
 import numpy as np
 
+# Set page configuration to wide layout
+st.set_page_config(page_title="Portfolio Report", layout="wide")
 def main():
     st.title("Strategy Tearsheet")
 # Replace with your published CSV link
@@ -59,9 +61,7 @@ def filter_data_by_date(returns, nifty50):
 
 # Main function for Streamlit app
 def main():
-    # Set page configuration to wide layout
-    st.set_page_config(page_title="Portfolio Report", layout="wide")
-
+    
     # Inject custom CSS for full-width iframe
     custom_css = """
     <style>
