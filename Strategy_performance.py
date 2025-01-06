@@ -4,6 +4,7 @@ import datetime
 import altair as alt
 
 def main():
+    st.title("Strategy Performance")
 # Replace with your actual Google Sheets CSV URL
 google_sheets_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuyGRVZuafIk2s7moScIn5PAUcPYEyYIOOYJj54RXYUeugWmOP0iIToljSEMhHrg_Zp8Vab6YvBJDV/pub?output=csv"
 
