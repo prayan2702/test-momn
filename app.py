@@ -6,17 +6,15 @@ from strategy_tearsheet import main as tearsheet_main
 # # Set page configuration to wide layout (this must be the first Streamlit command)
 # st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Sidebar Navigation
-st.sidebar.title("Navigation")
-pages = {
-    "Momentum App": momn_main,
-    "Strategy Performance": strategy_main,
-    "Strategy Tearsheet": tearsheet_main
-}
+# नेविगेशन टैब
+tab1, tab2, tab3 = st.tabs(["Momentum App", "Strategy Performance", "Strategy Tearsheet"])
 
-# Default Page
-default_page = "Momentum App"
-page = st.sidebar.radio("Go to", list(pages.keys()), index=0)
+# प्रत्येक टैब के लिए सामग्री
+with tab1:
+    momn_main()
 
-# Render Selected Page
-pages[page]()
+with tab2:
+    strategy_main()
+
+with tab3:
+    tearsheet_main()
