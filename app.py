@@ -3,8 +3,8 @@ from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
-# यह पहली Streamlit कमांड होनी चाहिए
-st.set_page_config(page_title="Portfolio Report", layout="wide")
+# # यह पहली Streamlit कमांड होनी चाहिए
+# st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 hide_streamlit_style = """
     <style>
