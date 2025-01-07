@@ -6,13 +6,16 @@ from strategy_tearsheet import main as tearsheet_main
 # यह पहली Streamlit कमांड होनी चाहिए
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# संशोधित CSS कोड
+
+# Modified CSS to fix the cutoff
 hide_streamlit_style = """
-            <style>
-            div[data-testid="stSidebarNav"] {display: none;}
-            div.block-container {padding-top: 0rem;}
-            </style>
-            """
+    <style>
+    div[data-testid="stSidebarNav"] {display: none !important;}
+    div[data-testid="stHeader"] {display: none !important;}
+    div.block-container {padding-top: 0rem !important; padding-bottom: 0rem !important;}
+    section.main > div:has(~ footer ) {padding-top: 0rem !important;}
+    </style>
+    """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # नेविगेशन टैब
