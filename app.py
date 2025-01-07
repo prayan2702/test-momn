@@ -6,10 +6,11 @@ from strategy_tearsheet import main as tearsheet_main
 # Set page configuration to wide layout (this must be the first Streamlit command)
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# CSS कोड
+# संशोधित CSS कोड
 hide_streamlit_style = """
             <style>
             div[data-testid="stSidebarNav"] {display: none;}
+            div.block-container {padding-top: 0rem;}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
