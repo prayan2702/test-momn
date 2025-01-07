@@ -6,66 +6,82 @@ from strategy_tearsheet import main as tearsheet_main
 # Set the page layout
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Custom CSS for different layouts in each tab
-custom_layout_css = """
+# Custom CSS for hideable sidebar
+hideable_sidebar_css = """
     <style>
-    /* Default centered layout for Tab 1 */
-    body[data-tab="tab1"] div.block-container {
-        max-width: 200px !important; /* Centered layout width */
-        padding-top: 2rem !important; /* Adjust top padding */
-        padding-bottom: 0rem !important;
+    /* Hide sidebar by default */
+    [data-testid="stSidebar"][aria-expanded="false"] {
+        margin-left: -300px; /* Shift sidebar out of view */
     }
 
-    /* Wide layout for Tab 2 and Tab 3 */
-    body[data-tab="tab2"] div.block-container,
-    body[data-tab="tab3"] div.block-container {
-        max-width: 100% !important; /* Full-width for wide layout */
-        padding-top: 6rem !important; /* Adjust top padding */
-        padding-bottom: 2rem !important;
+    /* Show sidebar when expanded */
+    [data-testid="stSidebar"][aria-expanded="true"] {
+        margin-left: 0; /* Bring sidebar into view */
     }
 
-    /* Hide unnecessary header and footer */
-    header, footer {
-        visibility: hidden !important;
+    /* Custom button to toggle sidebar */
+    .sidebar-toggle {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1000;
+        background-color: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
     }
     </style>
 
     <script>
-    // JavaScript to set the active tab attribute on body
-    document.addEventListener('DOMContentLoaded', function () {
-        let tabs = document.querySelectorAll('div[data-testid="stTabs"] button');
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                document.body.setAttribute('data-tab', 'tab' + (index + 1));
-            });
+    // JavaScript to toggle sidebar visibility
+    document.addEventListener("DOMContentLoaded", function() {
+        const toggleButton = document.querySelector('.sidebar-toggle');
+        const sidebar = document.querySelector('[data-testid="stSidebar"]');
+
+        toggleButton.addEventListener('click', () => {
+            if (sidebar.getAttribute('aria-expanded') === "true") {
+                sidebar.setAttribute('aria-expanded', "false");
+            } else {
+                sidebar.setAttribute('aria-expanded', "true");
+            }
         });
-        // Set the initial tab on page load
-        document.body.setAttribute('data-tab', 'tab1');
     });
     </script>
 """
-st.markdown(custom_layout_css, unsafe_allow_html=True)
 
-# Define tabs
-tab1, tab2, tab3 = st.tabs(["Momentum App", "Strategy Performance", "Strategy Tearsheet"])
+# Add the CSS and JS for the sidebar toggle
+st.markdown(hideable_sidebar_css, unsafe_allow_html=True)
 
-# Content for each tab
-with tab1:
-    st.write("This is the centered layout for Tab 1.")
+# Add a toggle button to the main page
+st.markdown('<div class="sidebar-toggle">☰ Menu</div>', unsafe_allow_html=True)
+
+# Sidebar navigation menu
+with st.sidebar:
+    st.title("Navigation")
+    option = st.radio(
+        "Go to:",
+        ("Momentum App", "Strategy Performance", "Strategy Tearsheet"),
+        index=0
+    )
+
+# Content based on selected option
+if option == "Momentum App":
+    st.title("Momentum App")
     try:
         momn_main()
     except Exception as e:
         st.error(f"Error loading Momentum App: {e}")
 
-with tab2:
-    st.write("This is the wide layout for Tab 2.")
+elif option == "Strategy Performance":
+    st.title("Strategy Performance")
     try:
         strategy_main()
     except Exception as e:
         st.error(f"Error loading Strategy Performance: {e}")
 
-with tab3:
-    st.write("This is the wide layout for Tab 3.")
+elif option == "Strategy Tearsheet":
+    st.title("Strategy Tearsheet")
     try:
         tearsheet_main()
     except Exception as e:
