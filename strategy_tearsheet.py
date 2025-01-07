@@ -3,8 +3,6 @@ import pandas as pd
 import quantstats as qs
 import numpy as np
 
-# Set page configuration to wide layout (this must be the first Streamlit command)
-st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 def main():
     st.title("Strategy Tearsheet")
