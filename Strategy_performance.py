@@ -1,7 +1,12 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import altair as alt
+import yfinance as yf
+from datetime import date, timedelta
+import plotly.express as px
+import plotly.graph_objects as go
+import pytz
+import locale
 
 
 st.set_page_config(layout="wide")  # Set full-width layout
