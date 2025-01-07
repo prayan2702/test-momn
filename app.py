@@ -6,7 +6,7 @@ from strategy_tearsheet import main as tearsheet_main
 # Set the page layout
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Custom CSS for hideable sidebar
+# Custom CSS and JavaScript for hideable sidebar
 hideable_sidebar_css = """
     <style>
     /* Hide sidebar by default */
@@ -34,17 +34,23 @@ hideable_sidebar_css = """
     </style>
 
     <script>
-    // JavaScript to toggle sidebar visibility
+    // JavaScript to toggle sidebar visibility and hide on option select
     document.addEventListener("DOMContentLoaded", function() {
         const toggleButton = document.querySelector('.sidebar-toggle');
         const sidebar = document.querySelector('[data-testid="stSidebar"]');
 
+        // Toggle button functionality
         toggleButton.addEventListener('click', () => {
-            if (sidebar.getAttribute('aria-expanded') === "true") {
+            const isExpanded = sidebar.getAttribute('aria-expanded') === "true";
+            sidebar.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Auto-hide sidebar when an option is selected
+        const radioOptions = document.querySelectorAll('div[data-testid="stSidebar"] input[type="radio"]');
+        radioOptions.forEach((option) => {
+            option.addEventListener('change', () => {
                 sidebar.setAttribute('aria-expanded', "false");
-            } else {
-                sidebar.setAttribute('aria-expanded', "true");
-            }
+            });
         });
     });
     </script>
