@@ -11,9 +11,9 @@ custom_layout_css = """
     <style>
     /* Default centered layout for Tab 1 */
     body[data-tab="tab1"] div.block-container {
-        max-width: 600px !important; /* Centered layout width */
-        padding-top: 4rem !important; /* Adjust top padding */
-        padding-bottom: 2rem !important;
+        max-width: 200px !important; /* Centered layout width */
+        padding-top: 2rem !important; /* Adjust top padding */
+        padding-bottom: 0rem !important;
     }
 
     /* Wide layout for Tab 2 and Tab 3 */
