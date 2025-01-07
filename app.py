@@ -10,16 +10,19 @@ st.set_page_config(page_title="Portfolio Report", layout="wide")
 hideable_sidebar_css = """
     <style>
     /* Hide sidebar by default */
-    [data-testid="stSidebar"][aria-expanded="false"] {
-        margin-left: -300px; /* Shift sidebar out of view */
+    [data-testid="stSidebar"] {
+        transition: all 0.3s ease-in-out; /* Smooth transition */
+        position: fixed;
+        left: -300px; /* Hide sidebar off-screen */
+        width: 300px; /* Sidebar width */
     }
 
-    /* Show sidebar when expanded */
-    [data-testid="stSidebar"][aria-expanded="true"] {
-        margin-left: 0; /* Bring sidebar into view */
+    /* Show sidebar when toggled */
+    [data-testid="stSidebar"].visible {
+        left: 0; /* Bring sidebar into view */
     }
 
-    /* Custom button to toggle sidebar */
+    /* Custom toggle button */
     .sidebar-toggle {
         position: fixed;
         top: 1rem;
@@ -34,22 +37,21 @@ hideable_sidebar_css = """
     </style>
 
     <script>
-    // JavaScript to toggle sidebar visibility and hide on option select
+    // JavaScript to toggle sidebar visibility
     document.addEventListener("DOMContentLoaded", function() {
         const toggleButton = document.querySelector('.sidebar-toggle');
         const sidebar = document.querySelector('[data-testid="stSidebar"]');
 
         // Toggle button functionality
         toggleButton.addEventListener('click', () => {
-            const isExpanded = sidebar.getAttribute('aria-expanded') === "true";
-            sidebar.setAttribute('aria-expanded', !isExpanded);
+            sidebar.classList.toggle('visible');
         });
 
         // Auto-hide sidebar when an option is selected
         const radioOptions = document.querySelectorAll('div[data-testid="stSidebar"] input[type="radio"]');
         radioOptions.forEach((option) => {
             option.addEventListener('change', () => {
-                sidebar.setAttribute('aria-expanded', "false");
+                sidebar.classList.remove('visible');
             });
         });
     });
