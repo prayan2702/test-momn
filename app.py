@@ -3,8 +3,8 @@ from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
-# Set the page layout
-st.set_page_config(page_title="Portfolio Report", layout="wide")
+# # Set the page layout
+# st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # Custom CSS for different layouts in each tab
 custom_layout_css = """
