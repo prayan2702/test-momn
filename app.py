@@ -3,7 +3,7 @@ from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
-# Set the page layout
+# Set the page layout (use wide layout for full page)
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # Sidebar with navigation
@@ -35,16 +35,21 @@ elif option == "Strategy Tearsheet":
     except Exception as e:
         st.error(f"Error loading Strategy Tearsheet: {e}")
 
-# Hide the sidebar content automatically after selection
-if option != "Momentum App":  # Example: When an option is selected, hide sidebar
-    st.sidebar.empty()  # Clears the sidebar content, which will result in hidden sidebar
+# CSS to hide sidebar content (only remove content when option is selected)
+if option != "Momentum App":  # Hide sidebar content when an option is selected
+    st.sidebar.empty()  # This clears the content of the sidebar, but sidebar is still visible
 
-# Optional: You can add custom CSS to ensure the page content is full width
-hide_sidebar_css = """
+# Optional: Custom CSS to ensure content is displayed in full width
+full_width_css = """
     <style>
+    /* Hide sidebar header but keep it visible */
     [data-testid="stSidebar"] {
-        display: none !important;
+        width: 0px;
+        height: 0px;
+    }
+    div.block-container {
+        margin-left: 0 !important;
     }
     </style>
 """
-st.markdown(hide_sidebar_css, unsafe_allow_html=True)
+st.markdown(full_width_css, unsafe_allow_html=True)
