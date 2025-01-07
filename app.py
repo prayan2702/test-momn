@@ -6,21 +6,20 @@ from strategy_tearsheet import main as tearsheet_main
 # Set the page layout to wide
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Adjust CSS to fix top cutoff issue
-hide_streamlit_style = """
+# Adjust CSS to fix layout cutoff issue
+fix_layout_style = """
     <style>
-    div[data-testid="stSidebarNav"] {display: none !important;}
-    div[data-testid="stHeader"] {display: none !important;}
     div.block-container {
-        padding-top: 4rem !important; /* Increase top padding to avoid cutoff */
+        padding-top: 6rem !important; /* Adjust padding to move content down */
         padding-bottom: 1rem !important;
     }
-    section.main > div:has(~ footer ) {
-        padding-top: 4rem !important; /* Adjust main section's top padding */
+    section.main {
+        margin-top: 3rem !important; /* Additional margin to ensure proper spacing */
     }
+    header, footer {visibility: hidden;} /* Hide unnecessary header/footer */
     </style>
     """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+st.markdown(fix_layout_style, unsafe_allow_html=True)
 
 # Navigation Tabs
 tab1, tab2, tab3 = st.tabs(["Momentum App", "Strategy Performance", "Strategy Tearsheet"])
