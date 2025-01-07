@@ -6,7 +6,7 @@ from strategy_tearsheet import main as tearsheet_main
 # Set page configuration to wide layout (this must be the first Streamlit command)
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Modified CSS to fix the cutoff
+# Modified CSS to fix the cutoff and add space above tabs
 hide_streamlit_style = """
     <style>
     div[data-testid="stSidebarNav"] {display: none !important;}
@@ -14,6 +14,7 @@ hide_streamlit_style = """
     div.block-container {padding-top: 0rem !important; padding-bottom: 0rem !important;}
     section.main > div:has(~ footer ) {padding-top: 0rem !important;}
     .st-emotion-cache-z5fcl4 {position: relative; top: -62px;}
+    .st-emotion-cache-10oheav {margin-top: 50px;} /* Add space above tabs */
     </style>
     """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
