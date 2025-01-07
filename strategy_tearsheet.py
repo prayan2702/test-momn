@@ -60,8 +60,8 @@ def main():
     
     # Main function for Streamlit app
     def main():
-        # Set page configuration to wide layout
-        st.set_page_config(page_title="Portfolio Report", layout="wide")
+        # # Set page configuration to wide layout
+        # st.set_page_config(page_title="Portfolio Report", layout="wide")
     
         # Inject custom CSS for full-width iframe
         custom_css = """
