@@ -6,9 +6,6 @@ from strategy_tearsheet import main as tearsheet_main
 # यह पहली Streamlit कमांड होनी चाहिए
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# यह पहली Streamlit कमांड होनी चाहिए
-st.set_page_config(page_title="Portfolio Report", layout="wide")
-
 # Modified CSS to fix the cutoff
 hide_streamlit_style = """
     <style>
