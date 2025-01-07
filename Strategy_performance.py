@@ -9,7 +9,6 @@ import pytz
 import locale
 
 
-st.set_page_config(layout="wide")  # Set full-width layout
 def main():
     st.title("Strategy Performance")
 
