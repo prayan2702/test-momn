@@ -3,28 +3,35 @@ from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
-# Set page layout to wide for the overall app
+# Set the page layout
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Custom CSS to control layout per tab
-custom_css = """
+# Custom CSS for different layouts in each tab
+custom_layout_css = """
     <style>
-    /* Default block container (applies to all tabs initially) */
-    div.block-container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 2rem 1rem;
+    /* Default centered layout for Tab 1 */
+    body[data-tab="tab1"] div.block-container {
+        max-width: 800px !important; /* Centered layout width */
+        padding-top: 4rem !important; /* Adjust top padding */
+        padding-bottom: 2rem !important;
     }
-    
-    /* Wide layout for tabs 2 and 3 */
+
+    /* Wide layout for Tab 2 and Tab 3 */
     body[data-tab="tab2"] div.block-container,
     body[data-tab="tab3"] div.block-container {
-        max-width: 100%;
-        padding: 2rem;
+        max-width: 100% !important; /* Full-width for wide layout */
+        padding-top: 6rem !important; /* Adjust top padding */
+        padding-bottom: 2rem !important;
+    }
+
+    /* Hide unnecessary header and footer */
+    header, footer {
+        visibility: hidden !important;
     }
     </style>
+
     <script>
-    // JavaScript to add a custom class based on the active tab
+    // JavaScript to set the active tab attribute on body
     document.addEventListener('DOMContentLoaded', function () {
         let tabs = document.querySelectorAll('div[data-testid="stTabs"] button');
         tabs.forEach((tab, index) => {
@@ -37,7 +44,7 @@ custom_css = """
     });
     </script>
 """
-st.markdown(custom_css, unsafe_allow_html=True)
+st.markdown(custom_layout_css, unsafe_allow_html=True)
 
 # Define tabs
 tab1, tab2, tab3 = st.tabs(["Momentum App", "Strategy Performance", "Strategy Tearsheet"])
