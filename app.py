@@ -33,6 +33,7 @@ hideable_sidebar_css = """
         padding: 0.5rem 1rem;
         border-radius: 5px;
         cursor: pointer;
+        display: block; /* Always display the button */
     }
     </style>
 
@@ -61,7 +62,7 @@ hideable_sidebar_css = """
 # Add the CSS and JS for the sidebar toggle
 st.markdown(hideable_sidebar_css, unsafe_allow_html=True)
 
-# Add a toggle button to the main page
+# Add a toggle button to the main page (always visible)
 st.markdown('<div class="sidebar-toggle">☰ Menu</div>', unsafe_allow_html=True)
 
 # Sidebar navigation menu
