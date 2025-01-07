@@ -30,7 +30,7 @@ narwhals==1.15.2
 numpy>=1.23,<2.0
 openpyxl==3.1.5
 packaging>=16.8,<24
-pandas
+pandas==1.5.3
 peewee==3.17.8
 pillow==10.0.0
 platformdirs==4.3.6
