@@ -29,7 +29,6 @@ elif option == "Strategy Performance":
         st.error(f"Error loading Strategy Performance: {e}")
 
 elif option == "Strategy Tearsheet":
-    st.title("Strategy Tearsheet")
     try:
         tearsheet_main()
     except Exception as e:
