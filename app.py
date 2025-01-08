@@ -19,9 +19,21 @@ def main():
         st.set_page_config(page_title="Portfolio Report", layout="centered")
         login()
     else:
-        # Set wide layout for the main app
-        st.set_page_config(page_title="Portfolio Report", layout="wide")
-        app_content()
+        # Handle layout dynamically for Momentum App
+        option = st.sidebar.radio(
+            "Go to:",
+            ("Momentum App", "Strategy Performance", "Strategy Tearsheet"),
+            index=0
+        )
+
+        # Set dynamic layout based on the selected option
+        if option == "Momentum App":
+            st.set_page_config(page_title="Momentum App", layout="centered")
+        else:
+            st.set_page_config(page_title="Portfolio Report", layout="wide")
+        
+        # Display the selected app content
+        app_content(option)
 
 # Function to handle login
 def login():
@@ -31,7 +43,7 @@ def login():
     if st.button("Login"):
         if username == USERNAME and password == PASSWORD:
             st.session_state["logged_in"] = True
-            st.experimental_rerun()  # Reload app to apply wide layout
+            st.experimental_rerun()  # Reload app to apply layout dynamically
         else:
             st.error("Invalid username or password")
 
@@ -41,16 +53,9 @@ def logout():
     st.experimental_rerun()  # Reload app to reset login state
 
 # Function to display main app content
-def app_content():
+def app_content(option):
     # Sidebar logout button
     st.sidebar.button("Logout", on_click=logout)
-
-    # Sidebar with navigation
-    option = st.sidebar.radio(
-        "Go to:",
-        ("Momentum App", "Strategy Performance", "Strategy Tearsheet"),
-        index=0
-    )
 
     # Content based on selected option
     if option == "Momentum App":
@@ -68,6 +73,7 @@ def app_content():
             st.error(f"Error loading Strategy Performance: {e}")
 
     elif option == "Strategy Tearsheet":
+        st.title("Strategy Tearsheet")
         try:
             tearsheet_main()
         except Exception as e:
