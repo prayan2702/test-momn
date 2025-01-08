@@ -7,8 +7,8 @@ from strategy_tearsheet import main as tearsheet_main
 USERNAME = "prayan"
 PASSWORD = "prayan"
 
-# Set the page layout
-st.set_page_config(page_title="Portfolio Report")
+# Set the page layout to wide
+st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # Function to handle login
 def login():
