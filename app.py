@@ -35,7 +35,6 @@ def logout():
 def app_content():
     # Sidebar navigation with clickable text
     with st.sidebar:
-        st.title("Quantified Self")
         pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
         
         # Display pages with clickable links
