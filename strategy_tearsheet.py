@@ -47,8 +47,6 @@ def main():
         nifty50 = nifty50[start_date:end_date]
         return returns, nifty50
 
-    # Main function for Streamlit app
-    def main():
         # Inject custom CSS for full-width iframe
         custom_css = """
         <style>
