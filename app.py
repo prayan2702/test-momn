@@ -31,25 +31,21 @@ def logout():
     st.session_state["logged_in"] = False
     st.rerun()
 
-# Sidebar Navigation without Layout Shift
+# Sidebar Navigation (Dropdown)
 def sidebar_navigation():
     st.sidebar.title("Quantified Self")
-    pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
 
-    # Sidebar navigation with markdown links (no shifting)
-    for page in pages:
-        if st.session_state["page"] == page:
-            st.sidebar.markdown(
-                f"<div style='padding: 10px; background-color: #d0d7e2; border-radius: 5px; font-weight: bold;'>{page}</div>", 
-                unsafe_allow_html=True
-            )
-        else:
-            if st.sidebar.markdown(
-                f"<div style='padding: 10px; cursor: pointer;' onclick=\"window.location.href='/{page}'\">{page}</div>", 
-                unsafe_allow_html=True
-            ):
-                st.session_state["page"] = page
-                st.rerun()
+    # Dropdown to select page
+    selected_page = st.sidebar.selectbox(
+        "Select a Page",
+        ["Momentum App", "Strategy Performance", "Strategy Tearsheet"],
+        index=["Momentum App", "Strategy Performance", "Strategy Tearsheet"].index(st.session_state["page"])
+    )
+
+    # Update the current page on change
+    if selected_page != st.session_state["page"]:
+        st.session_state["page"] = selected_page
+        st.rerun()
 
     # Sidebar logout button
     if st.sidebar.button("Logout"):
