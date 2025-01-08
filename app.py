@@ -7,20 +7,23 @@ from strategy_tearsheet import main as tearsheet_main
 USERNAME = "prayan"
 PASSWORD = "prayan"
 
-# Set the page layout once at the start
+# Set the page layout (wide for the app, customized for specific sections)
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # Function to handle login
 def login():
-    st.title("Login Page")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if username == USERNAME and password == PASSWORD:
-            st.session_state["logged_in"] = True
-            st.experimental_rerun()
-        else:
-            st.error("Invalid username or password")
+    with st.container():
+        col1, col2, col3 = st.columns([1, 2, 1])  # Create centered layout for login
+        with col2:
+            st.title("Login Page")
+            username = st.text_input("Username")
+            password = st.text_input("Password", type="password")
+            if st.button("Login"):
+                if username == USERNAME and password == PASSWORD:
+                    st.session_state["logged_in"] = True
+                    st.experimental_rerun()
+                else:
+                    st.error("Invalid username or password")
 
 # Function to handle logout
 def logout():
