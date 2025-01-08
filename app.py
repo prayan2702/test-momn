@@ -22,19 +22,20 @@ def login():
                 if username == USERNAME and password == PASSWORD:
                     st.session_state["logged_in"] = True
                     st.session_state["page"] = "Momentum App"  # Default page after login
-                    st.rerun()
+                    st.rerun()  # Updated to st.rerun
                 else:
                     st.error("Invalid username or password")
 
 # Function to handle logout
 def logout():
     st.session_state["logged_in"] = False
-    st.rerun()
+    st.rerun()  # Updated to st.rerun
 
 # Function to display main app content
 def app_content():
     # Sidebar navigation with clickable text
     with st.sidebar:
+        st.title("Quantified Self")
         pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
         
         # Display pages with clickable links
@@ -42,9 +43,9 @@ def app_content():
             if st.session_state["page"] == page:
                 st.markdown(f"**<div style='padding: 8px; background-color: #d0d7e2; border-radius: 5px; font-weight: bold;'>{page}</div>**", unsafe_allow_html=True)
             else:
-                if st.markdown(f"<div style='padding: 8px; cursor: pointer;' onclick='window.location.reload();'>{page}</div>", unsafe_allow_html=True):
+                if st.button(page, key=page):  # Sidebar button to switch pages
                     st.session_state["page"] = page
-                    st.rerun()
+                    st.rerun()  # Updated to st.rerun
 
         # Sidebar logout button
         if st.button("Logout"):
