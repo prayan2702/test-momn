@@ -22,14 +22,14 @@ def login():
                 if username == USERNAME and password == PASSWORD:
                     st.session_state["logged_in"] = True
                     st.session_state["page"] = "Momentum App"  # Default page after login
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error("Invalid username or password")
 
 # Function to handle logout
 def logout():
     st.session_state["logged_in"] = False
-    st.experimental_rerun()
+    st.rerun()
 
 # Function to display main app content
 def app_content():
@@ -44,7 +44,7 @@ def app_content():
             else:
                 if st.markdown(f"<div style='padding: 8px; cursor: pointer;' onclick='window.location.reload();'>{page}</div>", unsafe_allow_html=True):
                     st.session_state["page"] = page
-                    st.experimental_rerun()
+                    st.rerun()
 
         # Sidebar logout button
         if st.button("Logout"):
