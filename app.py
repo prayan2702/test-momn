@@ -13,7 +13,7 @@ st.set_page_config(page_title="Portfolio Report", layout="wide")
 # Function to handle login
 def login():
     with st.container():
-        col1, col2, col3 = st.columns([1, 2, 1])  # Create centered layout for login
+        col1, col2, col3 = st.columns([1, 2, 1])  # Centered layout
         with col2:
             st.title("Login Page")
             username = st.text_input("Username")
@@ -22,45 +22,50 @@ def login():
                 if username == USERNAME and password == PASSWORD:
                     st.session_state["logged_in"] = True
                     st.session_state["page"] = "Momentum App"  # Default page after login
-                    st.rerun()  # Updated to st.rerun
+                    st.rerun()
                 else:
                     st.error("Invalid username or password")
 
 # Function to handle logout
 def logout():
     st.session_state["logged_in"] = False
-    st.rerun()  # Updated to st.rerun
+    st.rerun()
+
+# Sidebar Navigation without Layout Shift
+def sidebar_navigation():
+    st.sidebar.title("Quantified Self")
+    pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
+
+    # Sidebar navigation with markdown links (no shifting)
+    for page in pages:
+        if st.session_state["page"] == page:
+            st.sidebar.markdown(
+                f"<div style='padding: 10px; background-color: #d0d7e2; border-radius: 5px; font-weight: bold;'>{page}</div>", 
+                unsafe_allow_html=True
+            )
+        else:
+            if st.sidebar.markdown(
+                f"<div style='padding: 10px; cursor: pointer;' onclick=\"window.location.href='/{page}'\">{page}</div>", 
+                unsafe_allow_html=True
+            ):
+                st.session_state["page"] = page
+                st.rerun()
+
+    # Sidebar logout button
+    if st.sidebar.button("Logout"):
+        logout()
 
 # Function to display main app content
 def app_content():
-    # Sidebar navigation with clickable text
-    with st.sidebar:
-        st.title("Quantified Self")
-        pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
-        
-        # Display pages with clickable links
-        for page in pages:
-            if st.session_state["page"] == page:
-                st.markdown(f"**<div style='padding: 8px; background-color: #d0d7e2; border-radius: 5px; font-weight: bold;'>{page}</div>**", unsafe_allow_html=True)
-            else:
-                if st.button(page, key=page):  # Sidebar button to switch pages
-                    st.session_state["page"] = page
-                    st.rerun()  # Updated to st.rerun
-
-        # Sidebar logout button
-        if st.button("Logout"):
-            logout()
+    sidebar_navigation()
 
     # Render content based on the selected page
     if st.session_state["page"] == "Momentum App":
-        with st.container():
-            col1, col2, col3 = st.columns([1, 2, 1])  # Centered layout
-            with col2:
-                st.title("Momentum App")
-                try:
-                    momn_main()
-                except Exception as e:
-                    st.error(f"Error loading Momentum App: {e}")
+        st.title("Momentum App")
+        try:
+            momn_main()
+        except Exception as e:
+            st.error(f"Error loading Momentum App: {e}")
     elif st.session_state["page"] == "Strategy Performance":
         st.title("Strategy Performance")
         try:
@@ -76,13 +81,11 @@ def app_content():
 
 # Main application logic
 def main():
-    # Initialize session state for login and navigation
     if "logged_in" not in st.session_state:
         st.session_state["logged_in"] = False
     if "page" not in st.session_state:
         st.session_state["page"] = "Momentum App"
 
-    # Check if user is logged in
     if not st.session_state["logged_in"]:
         login()
     else:
