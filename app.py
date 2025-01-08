@@ -4,10 +4,10 @@ from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
 # Hardcoded username and password for login
-USERNAME = "prayan"
-PASSWORD = "prayan"
+USERNAME = "admin"
+PASSWORD = "password123"
 
-# Set the page layout (wide for the app, customized for specific sections)
+# Set the page layout (wide for the app)
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # Function to handle login
@@ -31,35 +31,41 @@ def logout():
     st.experimental_rerun()
 
 # Function to display main app content
-def app_content(option):
+def app_content():
+    # Sidebar navigation as text-based links
+    st.sidebar.title("Navigation")
+    pages = {
+        "Momentum App": "momentum",
+        "Strategy Performance": "strategy_performance",
+        "Strategy Tearsheet": "strategy_tearsheet"
+    }
+    selected_page = st.sidebar.radio("Select a page:", list(pages.keys()))
+
     # Sidebar logout button
     st.sidebar.button("Logout", on_click=logout)
 
-    # Conditionally render content for Momentum App with "centered" layout
-    if option == "Momentum App":
+    # Render content based on selected page
+    if selected_page == "Momentum App":
         with st.container():
-            col1, col2, col3 = st.columns([1, 2, 1])  # Create centered layout
+            col1, col2, col3 = st.columns([1, 2, 1])  # Centered layout
             with col2:
                 st.title("Momentum App")
                 try:
                     momn_main()
                 except Exception as e:
                     st.error(f"Error loading Momentum App: {e}")
-    else:
-        # Wide layout for other pages
-        if option == "Strategy Performance":
-            st.title("Strategy Performance")
-            try:
-                strategy_main()
-            except Exception as e:
-                st.error(f"Error loading Strategy Performance: {e}")
-
-        elif option == "Strategy Tearsheet":
-            st.title("Strategy Tearsheet")
-            try:
-                tearsheet_main()
-            except Exception as e:
-                st.error(f"Error loading Strategy Tearsheet: {e}")
+    elif selected_page == "Strategy Performance":
+        st.title("Strategy Performance")
+        try:
+            strategy_main()
+        except Exception as e:
+            st.error(f"Error loading Strategy Performance: {e}")
+    elif selected_page == "Strategy Tearsheet":
+        st.title("Strategy Tearsheet")
+        try:
+            tearsheet_main()
+        except Exception as e:
+            st.error(f"Error loading Strategy Tearsheet: {e}")
 
 # Main application logic
 def main():
@@ -71,13 +77,7 @@ def main():
     if not st.session_state["logged_in"]:
         login()
     else:
-        # Sidebar with navigation
-        option = st.sidebar.radio(
-            "Go to:",
-            ("Momentum App", "Strategy Performance", "Strategy Tearsheet"),
-            index=0
-        )
-        app_content(option)
+        app_content()
 
 if __name__ == "__main__":
     main()
