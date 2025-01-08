@@ -31,20 +31,44 @@ def logout():
     st.session_state["logged_in"] = False
     st.rerun()
 
-# Sidebar Navigation (Dropdown)
+# Sidebar Navigation with Clickable Text
 def sidebar_navigation():
-    st.sidebar.title("Quantified Self")
 
-    # Dropdown to select page
-    selected_page = st.sidebar.selectbox(
-        "Select a Page",
-        ["Momentum App", "Strategy Performance", "Strategy Tearsheet"],
-        index=["Momentum App", "Strategy Performance", "Strategy Tearsheet"].index(st.session_state["page"])
+    # Custom HTML for clickable links
+    pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
+
+    for page in pages:
+        if st.session_state["page"] == page:
+            st.sidebar.markdown(f"**<span style='cursor:pointer;'>{page}</span>**", unsafe_allow_html=True)
+        else:
+            if st.sidebar.markdown(
+                f"<a href='#' onclick='getClick(\"{page}\")' style='text-decoration:none; display:block; color:#1f77b4;'>{page}</a>",
+                unsafe_allow_html=True,
+            ):
+                st.session_state["page"] = page
+                st.rerun()
+
+    # JavaScript for handling clicks
+    st.sidebar.markdown(
+        """
+        <script>
+            function getClick(page) {
+                const streamlitDoc = window.parent.document;
+                const streamlitInput = streamlitDoc.querySelector('input[type="text"]');
+                if (streamlitInput) {
+                    streamlitInput.value = page;
+                    streamlitInput.dispatchEvent(new Event('change'));
+                }
+            }
+        </script>
+        """,
+        unsafe_allow_html=True,
     )
 
-    # Update the current page on change
-    if selected_page != st.session_state["page"]:
-        st.session_state["page"] = selected_page
+    # Hidden text input to capture clicks
+    hidden_page = st.sidebar.text_input("", value=st.session_state["page"])
+    if hidden_page != st.session_state["page"]:
+        st.session_state["page"] = hidden_page
         st.rerun()
 
     # Sidebar logout button
