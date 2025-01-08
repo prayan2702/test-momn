@@ -33,24 +33,23 @@ def logout():
 
 # Function to display main app content
 def app_content():
-    # Sidebar navigation with buttons styled as list items
-    st.sidebar.title("Navigation")
+    # Sidebar navigation with clickable text
+    with st.sidebar:
+        st.title("Quantified Self")
+        pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
+        
+        # Display pages with clickable links
+        for page in pages:
+            if st.session_state["page"] == page:
+                st.markdown(f"**<div style='padding: 8px; background-color: #d0d7e2; border-radius: 5px; font-weight: bold;'>{page}</div>**", unsafe_allow_html=True)
+            else:
+                if st.markdown(f"<div style='padding: 8px; cursor: pointer;' onclick='window.location.reload();'>{page}</div>", unsafe_allow_html=True):
+                    st.session_state["page"] = page
+                    st.experimental_rerun()
 
-    # List of pages
-    pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
-    
-    # Render each page as a sidebar "button" and highlight the active page
-    for page in pages:
-        if st.session_state["page"] == page:
-            st.sidebar.markdown(f"**> {page}**")  # Highlight the active page
-        else:
-            if st.sidebar.button(page, key=page):
-                st.session_state["page"] = page
-                st.experimental_rerun()
-
-    # Sidebar logout button
-    if st.sidebar.button("Logout"):
-        logout()
+        # Sidebar logout button
+        if st.button("Logout"):
+            logout()
 
     # Render content based on the selected page
     if st.session_state["page"] == "Momentum App":
