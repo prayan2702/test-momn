@@ -4,8 +4,8 @@ from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
 # Hardcoded username and password for login
-USERNAME = "admin"
-PASSWORD = "password123"
+USERNAME = "prayan"
+PASSWORD = "prayan"
 
 # Main application logic
 def main():
