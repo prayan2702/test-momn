@@ -21,6 +21,7 @@ def login():
             if st.button("Login"):
                 if username == USERNAME and password == PASSWORD:
                     st.session_state["logged_in"] = True
+                    st.session_state["page"] = "Momentum App"  # Default page after login
                     st.experimental_rerun()
                 else:
                     st.error("Invalid username or password")
@@ -32,17 +33,25 @@ def logout():
 
 # Function to display main app content
 def app_content():
-    # Sidebar navigation as text-based links
+    # Sidebar with clickable text links
     st.sidebar.title("Navigation")
-    pages = {
-        "Momentum App": "momentum",
-        "Strategy Performance": "strategy_performance",
-        "Strategy Tearsheet": "strategy_tearsheet"
-    }
-    selected_page = st.sidebar.radio("Select a page:", list(pages.keys()))
-
+    st.sidebar.markdown(
+        """
+        <ul>
+            <li><a href="?page=Momentum App">Momentum App</a></li>
+            <li><a href="?page=Strategy Performance">Strategy Performance</a></li>
+            <li><a href="?page=Strategy Tearsheet">Strategy Tearsheet</a></li>
+        </ul>
+        """,
+        unsafe_allow_html=True,
+    )
     # Sidebar logout button
-    st.sidebar.button("Logout", on_click=logout)
+    if st.sidebar.button("Logout"):
+        logout()
+
+    # Get current page from query parameters
+    query_params = st.experimental_get_query_params()
+    selected_page = query_params.get("page", ["Momentum App"])[0]
 
     # Render content based on selected page
     if selected_page == "Momentum App":
