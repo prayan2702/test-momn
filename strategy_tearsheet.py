@@ -47,16 +47,45 @@ def main():
         nifty50 = nifty50[start_date:end_date]
         return returns, nifty50
 
-    data = load_data(csv_url)
-
-    if data is not None:
-        data = preprocess_data(data)
-        returns, nifty50 = calculate_returns(data)
-        returns, nifty50 = filter_data_by_date(returns, nifty50)
-        qs.extend_pandas()
-        st.subheader("Tearsheet")
-        st.pyplot(qs.reports.html(returns, benchmark=nifty50, output=False))
-
-
+    # Main function for Streamlit app
+    def main():
+        # Inject custom CSS for full-width iframe
+        custom_css = """
+        <style>
+            .main iframe {
+                width: 100% !important;
+                height: calc(100vh - 2rem) !important;
+                border: none !important;
+            }
+            .main > div {
+                padding: 0 !important;
+            }
+        </style>
+        """
+        st.markdown(custom_css, unsafe_allow_html=True)
+    
+        # Load and preprocess data
+        data = load_data(csv_url)
+        if data is not None:
+            processed_data = preprocess_data(data)
+            returns, nifty50 = calculate_returns(processed_data)
+    
+            # Filter for overlapping dates
+            returns, nifty50 = filter_data_by_date(returns, nifty50)
+    
+            # Handle NaN and Inf values
+            returns = returns.replace([np.inf, -np.inf], 0).fillna(0)
+            nifty50 = nifty50.replace([np.inf, -np.inf], 0).fillna(0)
+    
+            # Generate QuantStats report
+            try:
+                qs.reports.html(returns, nifty50, output="report.html")
+                with open("report.html", "r") as f:
+                    report_html = f.read()
+    
+                # Embed the QuantStats report in full width
+                st.components.v1.html(report_html, scrolling=True)
+            except Exception as e:
+                st.error(f"Error displaying QuantStats report: {e}")
 if __name__ == "__main__":
     main()
