@@ -1,115 +1,69 @@
 import streamlit as st
+import streamlit_authenticator as stauth
 from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
-# Hardcoded username and password for login
-USERNAME = "prayan"
-PASSWORD = "prayan"
+# --- Load Credentials ---
+credentials = {
+    "usernames": {
+        "prayan": {
+            "name": "Prayan",
+            "password": stauth.Hasher(["prayan"]).generate()
+        }
+    }
+}
+
+# --- Authenticator ---
+authenticator = stauth.Authenticate(
+    credentials,
+    "portfolio_dashboard",  # Name of your cookie
+    "abcdef",  # Cookie key
+    cookie_expiry_days=30,  # Cookie expiration
+)
 
 # Set the page layout to wide
 st.set_page_config(page_title="Portfolio Report", layout="wide")
 
-# Function to handle login
-def login():
-    with st.container():
-        col1, col2, col3 = st.columns([1, 2, 1])  # Centered layout
-        with col2:
-            st.title("Login Page")
-            username = st.text_input("Username")
-            password = st.text_input("Password", type="password")
-            if st.button("Login"):
-                if username == USERNAME and password == PASSWORD:
-                    st.session_state["logged_in"] = True
-                    st.session_state["page"] = "Momentum App"  # Default page after login
+# --- Main App Content ---
+
+def main_app():
+    # Sidebar Navigation with Clickable Text
+    def sidebar_navigation():
+        pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
+        for page in pages:
+            if st.session_state["page"] == page:
+                st.sidebar.write(f"**{page}**")
+            else:
+                if st.sidebar.button(page):
+                    st.session_state["page"] = page
                     st.rerun()
-                else:
-                    st.error("Invalid username or password")
 
-# Function to handle logout
-def logout():
-    st.session_state["logged_in"] = False
-    st.rerun()
+    if "page" not in st.session_state:
+      st.session_state["page"] = "Momentum App"
 
-# Sidebar Navigation with Clickable Text
-def sidebar_navigation():
-
-    # Custom HTML for clickable links
-    pages = ["Momentum App", "Strategy Performance", "Strategy Tearsheet"]
-
-    for page in pages:
-        if st.session_state["page"] == page:
-            st.sidebar.markdown(f"**<span style='cursor:pointer;'>{page}</span>**", unsafe_allow_html=True)
-        else:
-            if st.sidebar.markdown(
-                f"<a href='#' onclick='getClick(\"{page}\")' style='text-decoration:none; display:block; color:#1f77b4;'>{page}</a>",
-                unsafe_allow_html=True,
-            ):
-                st.session_state["page"] = page
-                st.rerun()
-
-    # JavaScript for handling clicks
-    st.sidebar.markdown(
-        """
-        <script>
-            function getClick(page) {
-                const streamlitDoc = window.parent.document;
-                const streamlitInput = streamlitDoc.querySelector('input[type="text"]');
-                if (streamlitInput) {
-                    streamlitInput.value = page;
-                    streamlitInput.dispatchEvent(new Event('change'));
-                }
-            }
-        </script>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # Hidden text input to capture clicks
-    hidden_page = st.sidebar.text_input("", value=st.session_state["page"])
-    if hidden_page != st.session_state["page"]:
-        st.session_state["page"] = hidden_page
-        st.rerun()
-
-    # Sidebar logout button
-    if st.sidebar.button("Logout"):
-        logout()
-
-# Function to display main app content
-def app_content():
     sidebar_navigation()
 
-    # Render content based on the selected page
+    # --- Page Content ---
     if st.session_state["page"] == "Momentum App":
-        st.title("Momentum App")
-        try:
-            momn_main()
-        except Exception as e:
-            st.error(f"Error loading Momentum App: {e}")
+        momn_main()
+
     elif st.session_state["page"] == "Strategy Performance":
-        st.title("Strategy Performance")
-        try:
-            strategy_main()
-        except Exception as e:
-            st.error(f"Error loading Strategy Performance: {e}")
+        strategy_main()
+
     elif st.session_state["page"] == "Strategy Tearsheet":
-        st.title("Strategy Tearsheet")
-        try:
-            tearsheet_main()
-        except Exception as e:
-            st.error(f"Error loading Strategy Tearsheet: {e}")
+        tearsheet_main()
+    
 
-# Main application logic
-def main():
-    if "logged_in" not in st.session_state:
-        st.session_state["logged_in"] = False
-    if "page" not in st.session_state:
-        st.session_state["page"] = "Momentum App"
+# --- Login Form ---
+name, authentication_status, username = authenticator.login(
+    "Login", "main"
+)  # name, authentication status and username are returned
 
-    if not st.session_state["logged_in"]:
-        login()
-    else:
-        app_content()
-
-if __name__ == "__main__":
-    main()
+if authentication_status:
+    authenticator.logout("Logout", "sidebar")
+    main_app()
+elif authentication_status == False:
+    st.error("Username/password is incorrect")
+elif authentication_status == None:
+    st.warning("Please enter your username and password")
