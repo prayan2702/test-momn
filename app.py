@@ -9,7 +9,7 @@ credentials = {
     "usernames": {
         "prayan": {
             "name": "Prayan",
-            "password": stauth.Hasher(["prayan"]).generate()
+            "password": stauth.Hasher(['prayan']).generate()[0]  # Get the first element of the list, which is the hash
         }
     }
 }
