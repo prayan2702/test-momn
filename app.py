@@ -4,6 +4,10 @@ from momn_streamlit_app import main as momn_main
 from Strategy_performance import main as strategy_main
 from strategy_tearsheet import main as tearsheet_main
 
+# Set the page layout to wide
+st.set_page_config(page_title="Portfolio Report", layout="wide")
+
+
 # --- Load Credentials ---
 credentials = {
     "usernames": {
@@ -22,8 +26,6 @@ authenticator = stauth.Authenticate(
     cookie_expiry_days=30,  # Cookie expiration
 )
 
-# Set the page layout to wide
-st.set_page_config(page_title="Portfolio Report", layout="wide")
 
 # --- Main App Content ---
 
