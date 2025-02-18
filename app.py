@@ -58,9 +58,8 @@ def main_app():
     
 
 # --- Login Form ---
-name, authentication_status, username = authenticator.login(
-    "Login", "main"
-)  # name, authentication status and username are returned
+name, authentication_status, username = authenticator.login("Login", "sidebar")
+ # name, authentication status and username are returned
 
 if authentication_status:
     authenticator.logout("Logout", "sidebar")
